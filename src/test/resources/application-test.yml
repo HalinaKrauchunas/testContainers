@@ -1,0 +1,7 @@
+selenide:
+  user:
+    email: avorakh@arlo.com
+    userId: DEV-336-196915006
+    deviceId: AB5T1A76A011A
+    pin: 1111
+    password: ${TEST_PASSWORD:password}

@@ -1,0 +1,72 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+    id 'groovy'
+    id "com.google.cloud.tools.jib" version "3.1.4"
+}
+
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('testcontainersVersion', "1.17.2")
+    set('springCloudVersion', 'Hoxton.SR5')
+    selenide = '6.7.2'
+    jackson = '2.13.3'
+    mockServerClient = '5.9.0'
+}
+
+dependencies {
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.846'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson}"
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.3'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:spock'
+    testImplementation "org.testcontainers:selenium"
+    testImplementation "com.codeborne:selenide:${selenide}"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation 'org.spockframework:spock-spring:2.1-groovy-3.0'
+    testImplementation 'org.testcontainers:mockserver'
+    testImplementation "org.mock-server:mockserver-client-java:${mockServerClient}"
+    testImplementation 'org.testcontainers:localstack:1.17.1'
+
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
+}
+
+
+jib {
+    container.creationTime = "USE_CURRENT_TIMESTAMP"
+
+    from {
+        image = "adoptopenjdk/openjdk11:alpine-jre"
+    }
+
+    to {
+        image = 'demotestcontainers'
+        tags = project.provider { [version] }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

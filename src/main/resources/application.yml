@@ -1,0 +1,7 @@
+aws:
+  region: us-east-1
+  dynamoDb:
+    endpoint: https://aws/dynamodb
+
+mock:
+  url: http://something/url
