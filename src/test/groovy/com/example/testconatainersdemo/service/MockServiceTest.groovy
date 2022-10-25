@@ -1,6 +1,6 @@
 package com.example.testconatainersdemo.service
 
-import com.example.testconatainersdemo.BaseEnd2EndTest
+import com.example.testconatainersdemo.dynamodb2redis.BaseEnd2EndTest
 import org.mockserver.client.MockServerClient
 import static org.mockserver.model.HttpRequest.request
 import static org.mockserver.model.HttpResponse.response

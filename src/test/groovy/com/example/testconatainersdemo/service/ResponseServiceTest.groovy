@@ -1,6 +1,6 @@
 package com.example.testconatainersdemo.service
 
-import com.example.testconatainersdemo.BaseEnd2EndTest
+import com.example.testconatainersdemo.dynamodb2redis.BaseEnd2EndTest
 
 import java.net.http.HttpClient
 import java.net.http.HttpResponse

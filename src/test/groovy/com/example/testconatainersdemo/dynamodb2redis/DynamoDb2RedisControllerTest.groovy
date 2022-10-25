@@ -1,19 +1,22 @@
-package com.example.testconatainersdemo.dynamodb
+package com.example.testconatainersdemo.dynamodb2redis
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
 import com.amazonaws.services.dynamodbv2.document.DynamoDB
 import com.amazonaws.services.dynamodbv2.model.*
-import com.example.testconatainersdemo.BaseEnd2EndTest
+import com.example.testconatainersdemo.entity.Dev
 import com.example.testconatainersdemo.service.ResponseServiceTest
+import org.redisson.Redisson
+import org.redisson.api.RedissonClient
+import org.redisson.config.Config
 import spock.lang.Shared
 
 import static com.amazonaws.services.dynamodbv2.model.KeyType.HASH
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.DYNAMODB
 
-class DynamoDbControllerTest extends BaseEnd2EndTest {
+class DynamoDb2RedisControllerTest extends BaseEnd2EndTest {
 
-    public static final String DYNAMO_DB_CONTROLLER_PATH = ResponseServiceTest.HOST_DEMO_CONTAINER +  '/dynamo/'
+    public static final String DYNAMO_DB_CONTROLLER_PATH = ResponseServiceTest.HOST_DEMO_CONTAINER + '/dynamo/'
 
     @Shared
     AmazonDynamoDB dynamoDbClient
@@ -21,7 +24,14 @@ class DynamoDbControllerTest extends BaseEnd2EndTest {
     @Shared
     DynamoDB dynamoDB
 
+    @Shared
+    RedissonClient redissonClient
+
+
     def setupSpec() {
+        def config = new Config()
+        config.useSingleServer().setAddress("redis://" + redis.getHost() + ":" + redis.getMappedPort(6379))
+        redissonClient = Redisson.create(config)
 
         dynamoDbClient = AmazonDynamoDBClientBuilder
             .standard()
@@ -52,6 +62,19 @@ class DynamoDbControllerTest extends BaseEnd2EndTest {
 
         where:
             value << ['devId1', 'devId2', 'otherDevId']
+    }
+
+    def "should return correct response from redis"() {
+        given:
+            def rMap = redissonClient.getMap('MyMap') as Map<String, Dev>
+            def value = 'value'
+            def expectedDevId = 'valueDeviceId'
+            rMap.put(value, new Dev(devId: expectedDevId))
+        when:
+            def response = ResponseServiceTest.getRequest(DYNAMO_DB_CONTROLLER_PATH + value)
+
+        then:
+            response == """{"devId":"${expectedDevId}"}"""
     }
 
     def createTable(String tableName, String attribute, String typeAttr) {

@@ -24,6 +24,7 @@ ext {
 }
 
 dependencies {
+    implementation 'org.redisson:redisson:3.17.7'
     implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.846'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jackson}"

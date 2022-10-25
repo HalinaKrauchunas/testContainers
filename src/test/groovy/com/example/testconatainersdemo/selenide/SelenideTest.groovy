@@ -1,7 +1,6 @@
 package com.example.testconatainersdemo.selenide
 
 import com.codeborne.selenide.WebDriverRunner
-import com.example.testconatainersdemo.BaseEnd2EndTest
 import org.openqa.selenium.By
 import org.openqa.selenium.remote.RemoteWebDriver
 import spock.lang.Shared
@@ -13,7 +12,7 @@ import static com.codeborne.selenide.Selenide.sleep
 import static com.example.testconatainersdemo.service.ResponseServiceTest.getBodyAfterDisarmDevice
 import static com.example.testconatainersdemo.service.ResponseServiceTest.getBodyAfterGetStateForDevice
 
-class SelenideTest extends BaseEnd2EndTest {
+class SelenideTest extends BaseSelenideTest {
 
     @Shared
     def myGoldenDevUrl = 'https://mygoldendev.arlo.com/'

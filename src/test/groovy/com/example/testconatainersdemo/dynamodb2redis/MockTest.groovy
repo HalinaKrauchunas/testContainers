@@ -1,6 +1,5 @@
-package com.example.testconatainersdemo.mock
+package com.example.testconatainersdemo.dynamodb2redis
 
-import com.example.testconatainersdemo.BaseEnd2EndTest
 import com.example.testconatainersdemo.service.MockServiceTest
 import com.example.testconatainersdemo.service.ResponseServiceTest
 

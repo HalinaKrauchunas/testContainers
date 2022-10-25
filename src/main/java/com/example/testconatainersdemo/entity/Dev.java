@@ -5,10 +5,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @DynamoDBTable(tableName = "Dev")
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Dev {
+public class Dev implements Serializable {
     private String devId;
 
     @DynamoDBHashKey(attributeName = "devId")
