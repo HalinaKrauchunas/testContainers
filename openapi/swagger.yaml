@@ -1,0 +1,1173 @@
+openapi: 3.0.1
+info:
+  title: Google API
+  description: Description of the possibilities of interaction with the Google Home
+    app.
+  contact:
+    name: Halina Krauchunas
+    email: gkravchunas@arlo.com
+  version: 1.0.0
+externalDocs:
+  description: Google API Documentation
+  url: https://developers.google.com/assistant/docs
+servers:
+- url: http://localhost:8090/hmsgoogleapi
+  description: localhost
+- url: https://apidev.arlo.com/hmsgoogleapi
+  description: GoldenDev
+- url: http://hmsgoogleapi-goldenqa.arlocloud.com/hmsgoogleapi
+  description: GoldenQA
+paths:
+  /{partnerId}/beta/user/remove:
+    post:
+      tags:
+      - partner-beta-test-user-controller
+      operationId: removePartnerBetaTestUsers
+      parameters:
+      - name: partnerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemovePartnerBetaTestUsersRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /{partnerId}/beta/user/add:
+    post:
+      tags:
+      - partner-beta-test-user-controller
+      operationId: addPartnerBetaTestUsers
+      parameters:
+      - name: partnerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPartnerBetaTestUsersRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v2/devices/handleAsyncResponse:
+    post:
+      tags:
+      - device-messaging-callback-controller
+      operationId: handleDeviceResponse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/user/{userId}/reportState/{reportState}:
+    post:
+      tags:
+      - user-devices-controller
+      operationId: switchDeviceReportState
+      parameters:
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: reportState
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/stream/webrtc/{deviceId}/action/verify:
+    post:
+      tags:
+      - web-rtc-action-controller
+      operationId: verifyFeature
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: deviceId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/stream/webrtc/{deviceId}/action/offer:
+    post:
+      tags:
+      - web-rtc-action-controller
+      operationId: handleOfferAction
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: deviceId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SdpOfferActionRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/stream/webrtc/{deviceId}/action/end:
+    post:
+      tags:
+      - web-rtc-action-controller
+      operationId: handleEndAction
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: deviceId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/mpdstream:
+    post:
+      tags:
+      - camera-stream-controller
+      operationId: setStartStream
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: User-Agent
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerDeviceIdDTO'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StreamResponseDTO'
+  /v1/light/command/powerMode:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightPowerMode
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetLightPowerModeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceLightDeviceStateResource'
+  /v1/light/command/color:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightColor
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetLightColorRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceLightDeviceStateResource'
+  /v1/light/command/brightness:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightBrightness
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetLightBrightnessRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceLightDeviceStateResource'
+  /v1/devices/states:
+    post:
+      tags:
+      - device-controller
+      operationId: getDevicesState
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetMultipleDevicesStateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/query/state:
+    post:
+      tags:
+      - device-controller
+      operationId: getDeviceState
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetDeviceStateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/light/powerMode:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightsPowerMode
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiSetLightPowerModeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/light/color:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightsColor
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiSetLightColorRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/light/brightness:
+    post:
+      tags:
+      - light-controller
+      operationId: setLightsBrightness
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/SetLightsBrightnessCommandRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/disarm:
+    post:
+      tags:
+      - arm-disarm-controller
+      operationId: setDisarmMode
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetArmDisarmModeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices/arm:
+    post:
+      tags:
+      - arm-disarm-controller
+      operationId: setArmMode
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetArmDisarmModeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /loggers/{name}/{level}:
+    post:
+      tags:
+      - arlo-log-level-management-controller
+      operationId: setLoggerLevel
+      parameters:
+      - name: ApiKey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: level
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: timeout
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 3600
+          minimum: 1
+          type: integer
+          format: int64
+          default: 0
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceLogLevelResponse'
+  /version/extended:
+    get:
+      tags:
+      - version-controller
+      operationId: getExtendedVersion
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ExtendedVersionResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedVersionResponse'
+  /version:
+    get:
+      tags:
+      - version-controller
+      operationId: getVersion
+      parameters:
+      - name: Access-Control-Allow-Origin
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionInfo'
+  /v1/revokeUserPermission:
+    get:
+      tags:
+      - user-devices-controller
+      operationId: revokeUserPermission
+      parameters:
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /v1/devices:
+    get:
+      tags:
+      - user-devices-controller
+      operationId: getDevicesByUserId
+      parameters:
+      - name: OAuth-Scope
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-App-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: OAuth-User-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: directedId
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /static/refresh/{tableName}:
+    get:
+      tags:
+      - static-content-api-controller
+      operationId: refreshCache
+      parameters:
+      - name: tableName
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ApiKey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResourceObject'
+  /loggers/{name}:
+    get:
+      tags:
+      - arlo-log-level-management-controller
+      operationId: getLoggerLevel
+      parameters:
+      - name: ApiKey
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceLogLevelResponse'
+  /dependency/version:
+    get:
+      tags:
+      - version-controller
+      operationId: getDependencyVersion
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionInfo'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionInfo'
+components:
+  schemas:
+    RemovePartnerBetaTestUsersRequest:
+      required:
+      - emails
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+    ResourceObject:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+    AddPartnerBetaTestUsersRequest:
+      required:
+      - emails
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+    SdpOfferActionRequest:
+      required:
+      - sdpOffer
+      type: object
+      properties:
+        sdpOffer:
+          type: string
+    PartnerDeviceIdDTO:
+      required:
+      - deviceId
+      type: object
+      properties:
+        deviceId:
+          type: string
+    StreamResponseDTO:
+      type: object
+      properties:
+        url:
+          type: string
+        modelId:
+          type: string
+        streamDelay:
+          type: integer
+          format: int32
+        cameraStreamProtocol:
+          type: string
+        msessionid:
+          type: string
+    SetLightPowerModeRequest:
+      required:
+      - deviceId
+      - "on"
+      type: object
+      properties:
+        deviceId:
+          type: string
+        "on":
+          type: boolean
+    BatteryCapacity:
+      type: object
+      properties:
+        rawValue:
+          type: integer
+          format: int32
+        unit:
+          type: string
+    LightColorStateResource:
+      type: object
+      properties:
+        spectrumRGB:
+          type: integer
+          format: int32
+    LightDeviceStateResource:
+      type: object
+      properties:
+        online:
+          type: boolean
+        isArmed:
+          type: boolean
+        descriptiveCapacityRemaining:
+          type: string
+        isCharging:
+          type: boolean
+        isPluggedIn:
+          type: boolean
+        capacityRemaining:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatteryCapacity'
+        capacityUntilFull:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatteryCapacity'
+        openPercent:
+          type: integer
+          format: int32
+        "on":
+          type: boolean
+        brightness:
+          type: integer
+          format: int32
+        color:
+          $ref: '#/components/schemas/LightColorStateResource'
+    ResourceLightDeviceStateResource:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/LightDeviceStateResource'
+    SetLightColorRequest:
+      required:
+      - deviceId
+      - spectrumRGB
+      type: object
+      properties:
+        deviceId:
+          type: string
+        spectrumRGB:
+          type: integer
+          format: int32
+    SetLightBrightnessRequest:
+      required:
+      - brightness
+      - deviceId
+      type: object
+      properties:
+        deviceId:
+          type: string
+        brightness:
+          type: integer
+          format: int32
+    GetMultipleDevicesStateRequest:
+      required:
+      - ids
+      type: object
+      properties:
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    GetDeviceStateRequest:
+      required:
+      - deviceId
+      type: object
+      properties:
+        deviceId:
+          type: string
+    MultiSetLightPowerModeRequest:
+      required:
+      - ids
+      - "on"
+      type: object
+      properties:
+        "on":
+          type: boolean
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    MultiSetLightColorRequest:
+      required:
+      - ids
+      - spectrumRGB
+      type: object
+      properties:
+        spectrumRGB:
+          type: integer
+          format: int32
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    SetLightsBrightnessCommandRequest:
+      required:
+      - brightness
+      - ids
+      type: object
+      properties:
+        brightness:
+          type: integer
+          format: int32
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    SetArmDisarmModeRequest:
+      required:
+      - ids
+      type: object
+      properties:
+        pin:
+          type: string
+        ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    LogLevelResponse:
+      type: object
+      properties:
+        effectiveLevel:
+          type: string
+          enum:
+          - TRACE
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+          - FATAL
+          - "OFF"
+    ResourceLogLevelResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LogLevelResponse'
+        success:
+          type: boolean
+    ExtendedVersionResponse:
+      type: object
+      properties:
+        application:
+          $ref: '#/components/schemas/VersionInfo'
+        dependencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionInfo'
+    VersionInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        commitId:
+          type: string
