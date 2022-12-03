@@ -8,6 +8,8 @@ import com.example.testconatainersdemo.entity.Dev
 import com.example.testconatainersdemo.service.ResponseServiceTest
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient
+import org.redisson.client.codec.StringCodec
+import org.redisson.codec.JsonJacksonCodec
 import org.redisson.config.Config
 import spock.lang.Shared
 
@@ -30,6 +32,8 @@ class DynamoDb2RedisControllerTest extends BaseEnd2EndTest {
 
     def setupSpec() {
         def config = new Config()
+//        config.setCodec(StringCodec.INSTANCE)
+        config.setCodec(JsonJacksonCodec.INSTANCE)
         config.useSingleServer().setAddress("redis://" + redis.getHost() + ":" + redis.getMappedPort(6379))
         redissonClient = Redisson.create(config)
 
